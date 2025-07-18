@@ -119,10 +119,10 @@
     </script>
     
     <style>
-        /* Container settings - adjust these values as needed */
+        /* Container settings */
         .content-container {
             width: 100%;
-            max-width: 1160px; /* You can change this value to adjust content width */
+            max-width: 1160px;
             margin-left: auto;
             margin-right: auto;
             padding-left: 1rem;
@@ -173,18 +173,6 @@
             transform: scale(1.05);
         }
         
-        /* Marquee animation */
-        .marquee {
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-            animation: marquee 15s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
         /* Lightbox adjustments */
         .lb-data .lb-caption {
             font-size: 16px;
@@ -193,13 +181,59 @@
             margin: 0 auto;
         }
         
+        /* Exclusive Listing Badge */
+        .exclusive-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+        .exclusive-badge-text {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #D4AF37;
+            white-space: nowrap;
+        }
+        .exclusive-badge-logo {
+            height: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        
         /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .exclusive-badge {
+                top: 1.5rem;
+                right: 1.5rem;
+                padding: 0.75rem;
+            }
+            .exclusive-badge-text {
+                font-size: 0.75rem;
+            }
+            .exclusive-badge-logo {
+                height: 1.5rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             .quick-facts .grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .gallery .grid {
                 grid-template-columns: repeat(1, 1fr);
+            }
+            .agent-section .flex {
+                flex-direction: column;
+            }
+            .agent-section .md\:pl-12 {
+                padding-left: 0;
+                margin-top: 1.5rem;
             }
         }
     </style>
@@ -216,46 +250,58 @@
 
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="content-container px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <div class="text-2xl font-bold text-gold hover-grow">Neglasari<span class="text-black">House</span></div>
-                <div class="ml-4 flex items-center">
-                    <span class="text-xs mr-2">Exclusive Listing by</span>
-                    <img src="https://www.brighton.co.id/themes/v7/img/logo_full.svg" alt="Brighton" class="h-6 hover-grow">
-                </div>
-            </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#overview" class="hover:text-gold transition hover-grow">Overview</a>
-                <a href="#gallery" class="hover:text-gold transition hover-grow">Galeri</a>
-                <a href="#features" class="hover:text-gold transition hover-grow">Fitur</a>
-                <a href="#location" class="hover:text-gold transition hover-grow">Lokasi</a>
-            </nav>
-            <div class="md:hidden">
-                <button class="text-black focus:outline-none hover-grow">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+    <div class="content-container px-4 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold text-gold hover-grow">Neglasari<span class="text-black">House</span></div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-8">
+            <a href="#overview" class="hover:text-gold transition hover-grow">Overview</a>
+            <a href="#gallery" class="hover:text-gold transition hover-grow">Galeri</a>
+            <a href="#features" class="hover:text-gold transition hover-grow">Fitur</a>
+            <a href="#location" class="hover:text-gold transition hover-grow">Lokasi</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none hover-grow">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div class="content-container px-4 py-2 flex flex-col space-y-4">
+            <a href="#overview" class="py-2 hover:text-gold transition">Overview</a>
+            <a href="#gallery" class="py-2 hover:text-gold transition">Galeri</a>
+            <a href="#features" class="py-2 hover:text-gold transition">Fitur</a>
+            <a href="#location" class="py-2 hover:text-gold transition">Lokasi</a>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Hero Section -->
     <section class="relative bg-black overflow-hidden">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="relative content-container px-4 py-32 md:py-40 text-center">
+            <!-- Exclusive Listing Badge -->
+            <div class="exclusive-badge hover-grow">
+                <span class="exclusive-badge-text">Exclusive Listing by</span>
+                <img src="https://www.brighton.co.id/themes/v7/img/logo_full.svg" alt="Brighton" class="exclusive-badge-logo">
+            </div>
+            
             <h1 class="text-4xl md:text-6xl font-bold text-white text-shadow mb-4 animate-float">Rumah Mewah di Ciumbuleuit</h1>
             <div>
                 <p class="text-xl md:text-2xl text-gold mb-8">Jl. Neglasari, Bandung — <span class="text-white font-bold">Rp 10,7 Miliar</span> <span class="bg-gold text-black px-2 py-1 rounded ml-2 text-sm md:text-base animate-pulse">HARGA NEGO!</span></p>
             </div>
             <a href="#contact" class="inline-block bg-gold text-black font-bold px-8 py-3 rounded hover:bg-yellow-600 transition duration-300 hover-grow">JADWALKAN SURVEI SEKARANG</a>
-          </div>
+        </div>
     </section>
           
     <!-- Quick Facts -->
     <section class="bg-gray-50 py-12">
         <div class="content-container px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-center quick-facts">
                 <div class="bg-white p-4 rounded-lg shadow-sm border-t-4 border-gold hover-grow transition-all duration-300 hover:shadow-md">
                     <p class="text-sm text-gray-500">Luas Tanah</p>
                     <p class="font-bold text-lg">332 m²</p>
@@ -289,7 +335,7 @@
         <div class="content-container px-4">
             <h2 class="text-3xl font-bold text-center mb-12 animate-float">Galeri Properti</h2>
             
-            <div class="relative">
+            <div class="relative gallery">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <a href="https://cdn.brighton.co.id/Uploads/Images/12813716/k3hYFZbS/1736566606.230534-watermarked.webp" data-lightbox="property" data-title="Tampak Depan Rumah" class="col-span-1 hover-grow transition-all duration-300">
                         <img src="https://cdn.brighton.co.id/Uploads/Images/12813716/k3hYFZbS/1736566606.230534-watermarked.webp" alt="Tampak Depan Rumah" class="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-lg transition">
@@ -382,7 +428,7 @@
     </section>
 
     <!-- Agent Section -->
-    <section class="py-16 bg-gray-100">
+    <section class="py-16 bg-gray-100 agent-section">
         <div class="content-container px-4">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center">
@@ -471,48 +517,47 @@
         </div>
     </section>
 
-  <!-- Footer -->
-<footer class="bg-black text-white py-12">
-    <div class="content-container px-4">
-        <div class="flex flex-col md:flex-row justify-between">
-            <div class="mb-8 md:mb-0">
-                <div class="text-2xl font-bold text-gold mb-4 hover-grow inline-block">Neglasari<span class="text-white">House</span></div>
-                <p class="max-w-xs">Website terdedikasi untuk listing properti eksklusif Jl. Neglasari, Ciumbuleuit, Bandung.</p>
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="content-container px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="text-2xl font-bold text-gold mb-4 hover-grow inline-block">Neglasari<span class="text-white">House</span></div>
+                    <p class="max-w-xs">Website terdedikasi untuk listing properti eksklusif Jl. Neglasari, Ciumbuleuit, Bandung.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 md:ml-12">
+                    <div class="md:ml-8">
+                        <h3 class="text-gold font-bold mb-4">Tautan</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#overview" class="hover:text-gold transition hover-grow inline-block">Overview</a></li>
+                            <li><a href="#gallery" class="hover:text-gold transition hover-grow inline-block">Gallery</a></li>
+                            <li><a href="#features" class="hover:text-gold transition hover-grow inline-block">Fitur</a></li>
+                            <li><a href="#location" class="hover:text-gold transition hover-grow inline-block">Lokasi</a></li>
+                        </ul>
+                    </div>
+                    <div class="md:ml-6">
+                        <h3 class="text-gold font-bold mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="http://neglasarihouse.com" class="hover:text-gold transition hover-grow inline-block">Website Resmi</a></li>
+                            <li><a href="#" onclick="window.open('https://www.brighton.co.id/cari-properti/view/jl-neglasari-pckp', '_blank'); return false;" class="hover:text-gold transition hover-grow inline-block">Properti Lain</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-gold font-bold mb-4">Kontak</h3>
+                        <ul class="space-y-2">
+                            <li>Faisal Brighton Infinite Veteran Bandung</li>
+                            <li>Jl. Bukit Dago Selatan No.7, Dago</li>
+                            <li>Kota Bandung, Jawa Barat 40135</li>
+                            <li class="animate-pulse-slow">WhatsApp / Call: +62&nbsp;882&nbsp;1049&nbsp;6236</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 md:ml-12">
-                <div class="md:ml-8">
-                    <h3 class="text-gold font-bold mb-4">Tautan</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#overview" class="hover:text-gold transition hover-grow inline-block">Overview</a></li>
-                        <li><a href="#gallery" class="hover:text-gold transition hover-grow inline-block">Gallery</a></li>
-                        <li><a href="#features" class="hover:text-gold transition hover-grow inline-block">Fitur</a></li>
-                        <li><a href="#location" class="hover:text-gold transition hover-grow inline-block">Lokasi</a></li>
-                    </ul>
-                </div>
-                <!-- Kolom Legal dipindahkan sebelum Kontak -->
-                <div class="md:ml-6">
-                    <h3 class="text-gold font-bold mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="http://neglasarihouse.com" class="hover:text-gold transition hover-grow inline-block">Website Resmi</a></li>
-                        <li><a href="#" onclick="window.open('https://www.brighton.co.id/cari-properti/view/jl-neglasari-pckp', '_blank'); return false;" class="hover:text-gold transition hover-grow inline-block">Properti Lain</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-gold font-bold mb-4">Kontak</h3>
-                    <ul class="space-y-2">
-                        <li>Faisal Brighton Infinite Veteran Bandung</li>
-                        <li>Jl. Bukit Dago Selatan No.7, Dago</li>
-                        <li>Kota Bandung, Jawa Barat 40135</li>
-                        <li class="animate-pulse-slow">WhatsApp / Call: +62&nbsp;882&nbsp;1049&nbsp;6236</li>
-                    </ul>
-                </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>© 2025 NeglasariHouse. All rights reserved. Part of Brighton Infinite Group.</p>
             </div>
         </div>
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-            <p>© 2025 NeglasariHouse. All rights reserved. Part of Brighton Infinite Group.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
     <script>
@@ -533,5 +578,44 @@
             });
         });
     </script>
-</body>
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            menuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close menu when clicking on a link
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+
+        // Add animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-float, .animate-bounce-slow, .animate-pulse, .animate-pulse-slow, .animate-wiggle');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-float');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+  </body>
 </html>
