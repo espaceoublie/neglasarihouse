@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,15 +22,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    
-    <!-- Preconnect to critical third-party domains -->
+
+   <!-- Add these new lines at the top of your head section -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.brighton.co.id">
-    
-    <!-- Preload critical resources -->
     <link rel="preload" href="https://cdn.brighton.co.id/Uploads/Images/12813716/k3hYFZbS/1736566606.230534-watermarked.webp" as="image">
-    <link rel="preload" href="https://cdn.brighton.co.id/Uploads/Images/12813717/090sJykY/1736566607.653626-watermarked.webp" as="image">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
@@ -38,137 +36,16 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="manifest" href="favicon/site.webmanifest" />
     
-    <!-- Inline critical CSS -->
-    <style>
-        /* Critical CSS that affects above-the-fold content */
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #fff;
-            color: #111827;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .content-container {
-            width: 100%;
-            max-width: 1160px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        
-        /* Hero section styles */
-        .hero-section {
-            position: relative;
-            background-color: #000;
-            overflow: hidden;
-        }
-        
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Text utilities */
-        .text-shadow {
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Gold color definition */
-        .text-gold {
-            color: #D4AF37;
-        }
-        
-        .bg-gold {
-            background-color: #D4AF37;
-        }
-        
-        /* Basic animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Ensure content is visible before JS loads */
-        .no-js-hidden {
-            opacity: 1 !important;
-        }
-    </style>
-    
-    <!-- Deferred non-critical CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" media="print" onload="this.media='all'">
-    
-    <!-- Deferred JavaScript -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMT6P3Y0ZN"></script>
     <script>
-        // Load Google Tag Manager after page load
-        function loadGTM() {
-            var gtmScript = document.createElement('script');
-            gtmScript.async = true;
-            gtmScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-DMT6P3Y0ZN';
-            document.head.appendChild(gtmScript);
-            
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-DMT6P3Y0ZN');
-            gtag('config', 'AW-11530919810');
-        }
-        
-        // Load Tailwind CSS after page load
-        function loadTailwind() {
-            var twScript = document.createElement('script');
-            twScript.src = 'https://cdn.tailwindcss.com';
-            twScript.onload = function() {
-                // Tailwind config
-                tailwind.config = {
-                    theme: {
-                        extend: {
-                            colors: {
-                                gold: '#D4AF37',
-                            },
-                            animation: {
-                                'bounce-slow': 'bounce 3s infinite',
-                                'pulse-slow': 'pulse 3s infinite',
-                                'float': 'float 6s ease-in-out infinite',
-                                'wiggle': 'wiggle 1s ease-in-out infinite',
-                            },
-                            keyframes: {
-                                float: {
-                                    '0%, 100%': { transform: 'translateY(0)' },
-                                    '50%': { transform: 'translateY(-10px)' },
-                                },
-                                wiggle: {
-                                    '0%, 100%': { transform: 'rotate(-3deg)' },
-                                    '50%': { transform: 'rotate(3deg)' },
-                                }
-                            }
-                        }
-                    }
-                };
-            };
-            document.head.appendChild(twScript);
-        }
-        
-        // Load everything after page is interactive
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                loadGTM();
-                loadTailwind();
-                
-                // Load lightbox script
-                var lbScript = document.createElement('script');
-                lbScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js';
-                document.body.appendChild(lbScript);
-            }, 1000);
-        });
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DMT6P3Y0ZN');
+      gtag('config', 'AW-11530919810');
     </script>
-    
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -215,75 +92,239 @@
       }
     }
     </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+         /* Critical CSS that affects above-the-fold content */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #fff;
+            color: #111827;
+            margin: 0;
+        }
+        .content-container {
+            width: 100%;
+            max-width: 1160px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .hero-section {
+            position: relative;
+            background-color: #000;
+            overflow: hidden;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .text-gold { color: #D4AF37; }
+        .bg-gold { background-color: #D4AF37; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" media="print" onload="this.media='all'">
+        /* Text utilities */
+        .text-shadow {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Smooth scrolling */
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        /* WhatsApp floating button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+            animation: pulse-slow 2s infinite;
+        }
+        .whatsapp-float img {
+            width: 50px;
+            height: 50px;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            animation: none;
+        }
+        
+        /* Hover effects */
+        .hover-grow {
+            transition: transform 0.3s ease;
+        }
+        .hover-grow:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Lightbox adjustments */
+        .lb-data .lb-caption {
+            font-size: 16px;
+            line-height: 1.4;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Exclusive Listing Badge */
+        .exclusive-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+        .exclusive-badge-text {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #D4AF37;
+            white-space: nowrap;
+        }
+        .exclusive-badge-logo {
+            height: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .exclusive-badge {
+                top: 1.5rem;
+                right: 1.5rem;
+                padding: 0.75rem;
+            }
+            .exclusive-badge-text {
+                font-size: 0.75rem;
+            }
+            .exclusive-badge-logo {
+                height: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .quick-facts .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery .grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .agent-section .flex {
+                flex-direction: column;
+            }
+            .agent-section .md\:pl-12 {
+                padding-left: 0;
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-white text-gray-900 scroll-smooth">
-    <!-- WhatsApp Floating Button - Optimized -->
+<body class="bg-white text-gray-900 font-sans scroll-smooth">
+    <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20rumah%20di%20Jl.%20Neglasari,%20Ciumbuleuit%20yang%20dijual%20seharga%20Rp%2010.7%20Miliar.%20Apakah%20harga%20masih%20bisa%20dinegosiasikan?" 
        target="_blank" 
        class="whatsapp-float" 
        title="Chat on WhatsApp">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" 
-           width="50" 
-           height="50" 
-           alt="WhatsApp"
-           loading="lazy">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp">
     </a>
 
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="content-container px-4 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-gold hover-grow">Neglasari<span class="text-black">House</span></div>
-            
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex space-x-8">
-                <a href="#overview" class="hover:text-gold transition hover-grow">Overview</a>
-                <a href="/values" class="hover:text-gold transition hover-grow inline-block">Potensi Penghasilan</a>
-                <a href="#gallery" class="hover:text-gold transition hover-grow">Galeri</a>
-                <a href="#features" class="hover:text-gold transition hover-grow">Fitur</a>
-                <a href="#location" class="hover:text-gold transition hover-grow">Lokasi</a>
-            </nav>
-            
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none hover-grow">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
+    <div class="content-container px-4 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold text-gold hover-grow">Neglasari<span class="text-black">House</span></div>
         
-        <!-- Mobile Menu (hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-            <div class="content-container px-4 py-2 flex flex-col space-y-4">
-                <a href="#overview" class="py-2 hover:text-gold transition">Overview</a>
-                <a href="/values" class="hover:text-gold transition hover-grow inline-block">Potensi Penghasilan</a>
-                <a href="#gallery" class="py-2 hover:text-gold transition">Galeri</a>
-                <a href="#features" class="py-2 hover:text-gold transition">Fitur</a>
-                <a href="#location" class="py-2 hover:text-gold transition">Lokasi</a>
-            </div>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-8">
+            <a href="#overview" class="hover:text-gold transition hover-grow">Overview</a>
+            <a href="/values" class="hover:text-gold transition hover-grow inline-block">Potensi Penghasilan</a>
+            <a href="#gallery" class="hover:text-gold transition hover-grow">Galeri</a>
+            <a href="#features" class="hover:text-gold transition hover-grow">Fitur</a>
+            <a href="#location" class="hover:text-gold transition hover-grow">Lokasi</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none hover-grow">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div class="content-container px-4 py-2 flex flex-col space-y-4">
+            <a href="#overview" class="py-2 hover:text-gold transition">Overview</a>
+            <a href="/values" class="hover:text-gold transition hover-grow inline-block">Potensi Penghasilan</a>
+            <a href="#gallery" class="py-2 hover:text-gold transition">Galeri</a>
+            <a href="#features" class="py-2 hover:text-gold transition">Fitur</a>
+            <a href="#location" class="py-2 hover:text-gold transition">Lokasi</a>
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- Hero Section - Optimized for LCP -->
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="relative content-container px-4 py-32 md:py-40 text-center">
-            <!-- Hero image - preloaded and optimized -->
-            <img src="https://cdn.brighton.co.id/Uploads/Images/12813716/k3hYFZbS/1736566606.230534-watermarked.webp" 
-                 alt="Rumah Mewah di Ciumbuleuit"
-                 class="absolute inset-0 w-full h-full object-cover opacity-0"
-                 loading="eager"
-                 fetchpriority="high">
-            
+    <!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="relative content-container px-4 py-32 md:py-40 text-center">
+        <img src="https://cdn.brighton.co.id/Uploads/Images/12813716/k3hYFZbS/1736566606.230534-watermarked.webp" 
+             alt="Rumah Mewah di Ciumbuleuit"
+             class="absolute inset-0 w-full h-full object-cover opacity-0"
+             loading="eager"
+             fetchpriority="high">
             <!-- Exclusive Listing Badge -->
             <div class="exclusive-badge hover-grow">
                 <span class="exclusive-badge-text">Exclusive Listing by</span>
-                <img src="https://www.brighton.co.id/themes/v7/img/logo_full.svg" 
-                     alt="Brighton" 
-                     class="exclusive-badge-logo"
-                     loading="lazy"
-                     width="60"
-                     height="24">
+                <img src="https://www.brighton.co.id/themes/v7/img/logo_full.svg" alt="Brighton" class="exclusive-badge-logo">
             </div>
             
             <h1 class="text-4xl md:text-6xl font-bold text-white text-shadow mb-4 animate-float">Rumah Mewah di Ciumbuleuit</h1>
@@ -293,8 +334,8 @@
             <a href="#contact" class="inline-block bg-gold text-black font-bold px-8 py-3 rounded hover:bg-yellow-600 transition duration-300 hover-grow">JADWALKAN SURVEI SEKARANG</a>
         </div>
     </section>
-    
-     <!-- Quick Facts -->
+          
+    <!-- Quick Facts -->
     <section class="bg-gray-50 py-12">
         <div class="content-container px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-center quick-facts">
@@ -634,43 +675,35 @@
             });
         });
     </script>
-    
-    <!-- Non-critical JavaScript -->
     <script>
-        // Mobile menu toggle functionality
+        function loadGTM() {
+            var gtmScript = document.createElement('script');
+            gtmScript.async = true;
+            gtmScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-DMT6P3Y0ZN';
+            document.head.appendChild(gtmScript);
+            
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DMT6P3Y0ZN');
+            gtag('config', 'AW-11530919810');
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            menuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Close menu when clicking on a link
-            const menuLinks = mobileMenu.querySelectorAll('a');
-            menuLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-        });
-
-        // Add animation on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const animateElements = document.querySelectorAll('.animate-float, .animate-bounce-slow, .animate-pulse, .animate-pulse-slow, .animate-wiggle');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-float');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            animateElements.forEach(el => {
-                observer.observe(el);
-            });
+            setTimeout(function() {
+                loadGTM();
+                
+                // Load Tailwind
+                var twScript = document.createElement('script');
+                twScript.src = 'https://cdn.tailwindcss.com';
+                document.head.appendChild(twScript);
+                
+                // Load lightbox
+                var lbScript = document.createElement('script');
+                lbScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js';
+                document.body.appendChild(lbScript);
+            }, 1000);
         });
     </script>
-</body>
+  </body>
 </html>
