@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Gallery - Neglasari House</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    
+    <!-- PDF.js for rendering PDF thumbnails -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+    </script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                        airbnb: '#FF5A5F',
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Container settings */
+        .content-container {
+            width: 100%;
+            max-width: 1160px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        /* Text utilities */
+        .text-shadow {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Smooth scrolling */
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        /* WhatsApp floating button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+            animation: pulse-slow 2s infinite;
+        }
+        .whatsapp-float img {
+            width: 50px;
+            height: 50px;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            animation: none;
+        }
+        
+        /* Hover effects */
+        .hover-grow {
+            transition: transform 0.3s ease;
+        }
+        .hover-grow:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Lightbox adjustments */
+        .lb-data .lb-caption {
+            font-size: 16px;
+            line-height: 1.4;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Exclusive Listing Badge */
+        .exclusive-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+        .exclusive-badge-text {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #D4AF37;
+            white-space: nowrap;
+        }
+        .exclusive-badge-logo {
+            height: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Airbnb badge */
+        .airbnb-badge {
+            background-color: #FF5A5F;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: 1rem;
+        }
+        
+        /* PDF Thumbnail Styles */
+        .pdf-thumbnail {
+            position: relative;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .pdf-thumbnail:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .pdf-thumbnail canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .pdf-thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .pdf-thumbnail:hover .pdf-thumbnail-overlay {
+            opacity: 1;
+        }
+        .pdf-thumbnail-icon {
+            color: white;
+            font-size: 2rem;
+        }
+        .pdf-thumbnail-title {
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* PDF Preview Modal */
+        .pdf-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+        }
+        .pdf-preview-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .pdf-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .pdf-preview-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        .pdf-preview-close:hover {
+            color: #374151;
+        }
+        .pdf-preview-content {
+            width: 100%;
+            height: 80vh;
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .exclusive-badge {
+                top: 1.5rem;
+                right: 1.5rem;
+                padding: 0.75rem;
+            }
+            .exclusive-badge-text {
+                font-size: 0.75rem;
+            }
+            .exclusive-badge-logo {
+                height: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .quick-facts .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery .grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .agent-section .flex {
+                flex-direction: column;
+            }
+            .agent-section .md\:pl-12 {
+                padding-left: 0;
+                margin-top: 1.5rem;
+            }
+            .airbnb-badge {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 scroll-smooth">
+    <header class="bg-white shadow-sm">
+        <div class="content-container py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-gray-800">Neglasari House - PDF Gallery</h1>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600">Total PDFs: <span id="pdf-count" class="font-bold">0</span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="content-container py-8">
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Unit Hunian Documents</h2>
+            
+            <!-- Navigation Tabs -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="-mb-px flex space-x-8">
+                    <button onclick="filterPDFs('nilapadmi')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Nilapadmi</button>
+                    <button onclick="filterPDFs('ptbi')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">PT BI</button>
+                    <button onclick="filterPDFs('spatirasmi')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Spatirasmi</button>
+                    <button onclick="filterPDFs('tarubhawana')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Tarubhawana</button>
+                    <button onclick="filterPDFs('all')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-gold text-gold">All Documents</button>
+                </nav>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="mb-6">
+                <div class="relative max-w-md">
+                    <input type="text" id="pdf-search" placeholder="Search PDFs..." class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 text-sm focus:border-gold focus:ring-gold" onkeyup="searchPDFs()">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PDF Thumbnails Grid -->
+            <div id="pdf-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- PDF thumbnails will be inserted here by JavaScript -->
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div id="loading-indicator" class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gold"></div>
+                <p class="mt-2 text-gray-600">Loading PDF thumbnails...</p>
+            </div>
+        </div>
+
+              <!-- Insert this just before the closing </main> tag -->
+        <!-- Agent & Contact Section -->
+        <section class="py-16 bg-gray-100 agent-section">
+            <div class="content-container text-gray-800">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center">
+                        <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-gold hover:scale-105 transition-transform duration-300">
+                            <img src="https://cdn.brighton.co.id/Uploads/Images/12378787/blP9pjY2/Faisal-IFBD-Medium.webp" 
+                                 alt="Faisal - Property Advisor" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 md:pl-12">
+                        <h2 class="text-3xl font-bold mb-4">Faisal</h2>
+                        <p class="text-xl text-gold mb-4">Property Advisor</p>
+                        <p class="mb-6">Dengan pengalaman luas di pasar properti Bandung dan Lembang, saya siap membantu Anda menemukan properti impian atau mengelola penjualan properti Anda dengan hasil maksimal.</p>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        
+<a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20kavling%20di%20Kota%20Baru%20Parahyangan.%20Bisa%20berikan%20informasi%20lebih%20lanjut?" 
+   class="bg-gold text-white px-6 py-3 rounded font-bold hover:bg-yellow-600 transition text-center hover:scale-105 transition-transform duration-300">
+   HUBUNGI VIA WHATSAPP
+</a>
+                            <a href="https://www.neglasarihouse.com" 
+                               class="border border-gold text-gold px-6 py-3 rounded font-bold hover:bg-gold hover:text-white transition text-center hover:scale-105 transition-transform duration-300">
+                               PROPERTI LAINNYA
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- PDF Preview Modal -->
+    <div id="pdf-preview-modal" class="pdf-preview-modal">
+    </main>
+    
+    <!-- PDF Preview Modal -->
+    <div id="pdf-preview-modal" class="pdf-preview-modal">
+        <div class="pdf-preview-container">
+            <div class="pdf-preview-header">
+                <h3 id="pdf-preview-title" class="text-lg font-medium text-gray-900"></h3>
+                <button id="pdf-preview-close" class="pdf-preview-close">&times;</button>
+            </div>
+            <div class="pdf-preview-content">
+                <iframe id="pdf-preview-frame" src="" frameborder="0" width="100%" height="100%"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float hover-grow">
+        <a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20kavling%20di%20Kota%20Baru%20Parahyangan.%20Bisa%20berikan%20informasi%20lebih%20lanjut?" target="_blank" rel="noopener noreferrer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+    </div>
+    
+    <script>
+        // PDF data - in a real app, this would come from an API or server
+        const pdfData = [
+            {
+                id: 1,
+                title: "KSB JL. NILAJAYA-19.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-19.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 2,
+                title: "KSB JL. NILAJAYA-25.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-25.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 3,
+                title: "KSB JL. NILAJAYA-27.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-27.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 4,
+                title: "KSB JL. NILAJAYA-33.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-33.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 5,
+                title: "KSB JL. NILAJAYA-23.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-23.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 6,
+                title: "KSB JL. NILAJAYA-21.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-21.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 7,
+                title: "KSB JL. NILAJAYA 39.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA 39.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 8,
+                title: "KSB JL. NILAJAYA 37.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA 37.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 9,
+                title: "KSB JL. NILAJAYA 53.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA 53.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 10,
+                title: "KSB JL. NILAJAYA-29.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA-29.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 11,
+                title: "KSB JL. NILAJAYA 51.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Gambar Kerja/KSB JL. NILAJAYA 51.pdf",
+                category: "nilapadmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 12,
+                title: "Daftar Harga Unit Hunian Tatar Nilapadmi 31.01.25.pdf",
+                path: "/2. Unit Hunian/2.2 Nilapadmi/Pricelist/Daftar Harga Unit Hunian Tatar Nilapadmi 31.01.25.pdf",
+                category: "nilapadmi",
+                type: "pricelist"
+            },
+            {
+                id: 13,
+                title: "Jinggawisesa No.5.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Jingga Negara/Jinggawisesa No.5.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 14,
+                title: "RATNAMAHA NO 17.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Ratnasasih/RATNAMAHA NO 17.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 15,
+                title: "Kumalasinta 1.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Kumalasinta/Kumalasinta 1.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 16,
+                title: "Kumalasinta 5.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Kumalasinta/Kumalasinta 5.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 17,
+                title: "TITISWARI 63.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Titiswari/TITISWARI 63.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 18,
+                title: "Pitarani No.23.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Pitaloka/Pitarani No.23.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 19,
+                title: "Guru Minda 85 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Jalan Guruminda/Guru Minda 85 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 20,
+                title: "Guru Minda 63 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Jalan Guruminda/Guru Minda 63 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 21,
+                title: "Guru Minda 92 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Jalan Guruminda/Guru Minda 92 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 22,
+                title: "Mayangpadmi Kulon 47.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Mayang Sumba/Mayangpadmi Kulon 47.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 23,
+                title: "R18-Tejasembada No.21.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Tejakancana/R18-Tejasembada No.21.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 24,
+                title: "SUBANGLARANG 63.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Subanglarang/SUBANGLARANG 63.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 25,
+                title: "Rambut Kencana Wetan 7 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Rambut Kasih/Rambut Kencana Wetan 7 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 26,
+                title: "Rambut Asri 5 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Rambut Kasih/Rambut Asri 5 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 27,
+                title: "Rambut Kencana Wetan 6 - Disc.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Gambar Kerja/Tatar Rambut Kasih/Rambut Kencana Wetan 6 - Disc.pdf",
+                category: "ptbi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 28,
+                title: "Daftar Harga Unit Hunian PT BI 01.10.24.pdf",
+                path: "/2. Unit Hunian/2.4 Unit Hunian PT. BI/Pricelist/Daftar Harga Unit Hunian PT BI 01.10.24.pdf",
+                category: "ptbi",
+                type: "pricelist"
+            },
+            {
+                id: 29,
+                title: "4. SPATIRADYA 26 - DISC.pdf",
+                path: "/2. Unit Hunian/2.3 Spatirasmi/Gambar Kerja/4. SPATIRADYA 26 - DISC.pdf",
+                category: "spatirasmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 30,
+                title: "7. SPATIRADYA 28- DISC.pdf",
+                path: "/2. Unit Hunian/2.3 Spatirasmi/Gambar Kerja/7. SPATIRADYA 28- DISC.pdf",
+                category: "spatirasmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 31,
+                title: "GS SPATIRASMI TAHAP 2.pdf",
+                path: "/2. Unit Hunian/2.3 Spatirasmi/Gambar Kerja/GS SPATIRASMI TAHAP 2.pdf",
+                category: "spatirasmi",
+                type: "gambar-kerja"
+            },
+            {
+                id: 32,
+                title: "Daftar Harga Unit Hunian Tatar Spatirasmi Tahap Baru 10.01.25.pdf",
+                path: "/2. Unit Hunian/2.3 Spatirasmi/Pricelist/Daftar Harga Unit Hunian Tatar Spatirasmi Tahap Baru 10.01.25.pdf",
+                category: "spatirasmi",
+                type: "pricelist"
+            },
+            {
+                id: 33,
+                title: "GS Unit Hunian Tarukanti 63.pdf",
+                path: "/2. Unit Hunian/2.1 Tarubhawana/Gambar Kerja/GS Unit Hunian Tarukanti 63.pdf",
+                category: "tarubhawana",
+                type: "gambar-kerja"
+            },
+            {
+                id: 34,
+                title: "GS Unit Hunian Tarukanti 61.pdf",
+                path: "/2. Unit Hunian/2.1 Tarubhawana/Gambar Kerja/GS Unit Hunian Tarukanti 61.pdf",
+                category: "tarubhawana",
+                type: "gambar-kerja"
+            },
+            {
+                id: 35,
+                title: "GS Unit Hunian Tarukanti 59.pdf",
+                path: "/2. Unit Hunian/2.1 Tarubhawana/Gambar Kerja/GS Unit Hunian Tarukanti 59.pdf",
+                category: "tarubhawana",
+                type: "gambar-kerja"
+            },
+            {
+                id: 36,
+                title: "GS Unit Hunian Tarukanti 51.pdf",
+                path: "/2. Unit Hunian/2.1 Tarubhawana/Gambar Kerja/GS Unit Hunian Tarukanti 51.pdf",
+                category: "tarubhawana",
+                type: "gambar-kerja"
+            },
+            {
+                id: 37,
+                title: "Daftar Harga Unit Hunian Tatar Tarubhawana 01.10.24.pdf",
+                path: "/2. Unit Hunian/2.1 Tarubhawana/Pricelist/Daftar Harga Unit Hunian Tatar Tarubhawana 01.10.24.pdf",
+                category: "tarubhawana",
+                type: "pricelist"
+            }
+        ];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update PDF count
+            document.getElementById('pdf-count').textContent = pdfData.length;
+            
+            // Load all PDF thumbnails initially
+            loadPDFThumbnails(pdfData);
+            
+            // Set up modal close button
+            document.getElementById('pdf-preview-close').addEventListener('click', function() {
+                document.getElementById('pdf-preview-modal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('pdf-preview-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+
+        // Function to load PDF thumbnails
+        function loadPDFThumbnails(pdfs) {
+            const container = document.getElementById('pdf-container');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            // Clear existing thumbnails
+            container.innerHTML = '';
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            
+            // Process each PDF
+            let loadedCount = 0;
+            
+            pdfs.forEach(pdf => {
+                const pdfItem = document.createElement('div');
+                pdfItem.className = 'pdf-thumbnail hover-grow';
+                pdfItem.setAttribute('data-id', pdf.id);
+                pdfItem.setAttribute('data-category', pdf.category);
+                pdfItem.setAttribute('data-type', pdf.type);
+                pdfItem.setAttribute('data-title', pdf.title);
+                
+                pdfItem.innerHTML = `
+                    <div class="relative pb-[141.42%]"> <!-- Aspect ratio container for 1:√2 (A4) -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-gray-100">
+                            <canvas class="pdf-canvas"></canvas>
+                            <div class="pdf-thumbnail-overlay">
+                                <svg class="pdf-thumbnail-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pdf-thumbnail-title">${pdf.title}</div>
+                `;
+                
+                container.appendChild(pdfItem);
+                
+                // Load PDF and render first page as thumbnail
+                loadPDFThumbnail(pdf.path, pdfItem.querySelector('.pdf-canvas'), function() {
+                    loadedCount++;
+                    
+                    // Hide loading indicator when all are loaded
+                    if (loadedCount === pdfs.length) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                });
+                
+                // Add click event to open preview
+                pdfItem.addEventListener('click', function() {
+                    openPDFPreview(pdf.path, pdf.title);
+                });
+            });
+        }
+
+        // Function to load a PDF and render its first page as thumbnail
+        function loadPDFThumbnail(url, canvasElement, callback) {
+            // For demo purposes, we'll just show a placeholder
+            // In a real app, you would use PDF.js to render the actual first page
+            
+            const ctx = canvasElement.getContext('2d');
+            canvasElement.width = 300;
+            canvasElement.height = 424; // A4 aspect ratio
+            
+            // Draw placeholder
+            ctx.fillStyle = '#f3f4f6';
+            ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+            
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('PDF Preview', canvasElement.width/2, canvasElement.height/2);
+            
+            // Simulate loading delay
+            setTimeout(callback, 200);
+            
+            /* 
+            // Actual PDF.js implementation would look like this:
+            pdfjsLib.getDocument(url).promise.then(function(pdf) {
+                return pdf.getPage(1);
+            }).then(function(page) {
+                const viewport = page.getViewport({ scale: 0.5 });
+                canvasElement.width = viewport.width;
+                canvasElement.height = viewport.height;
+                
+                page.render({
+                    canvasContext: canvasElement.getContext('2d'),
+                    viewport: viewport
+                }).promise.then(callback);
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                callback();
+            });
+            */
+        }
+
+        // Function to open PDF preview
+        function openPDFPreview(url, title) {
+            const modal = document.getElementById('pdf-preview-modal');
+            const frame = document.getElementById('pdf-preview-frame');
+            const titleElement = document.getElementById('pdf-preview-title');
+            
+            titleElement.textContent = title;
+            frame.src = url; // In a real app, you might want to use PDF.js viewer instead
+            modal.style.display = 'block';
+        }
+
+        // Function to filter PDFs by category
+        function filterPDFs(category) {
+            // Update active tab
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => {
+                if (tab.textContent.toLowerCase().includes(category) {
+                    tab.classList.add('border-gold', 'text-gold');
+                    tab.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    tab.classList.remove('border-gold', 'text-gold');
+                    tab.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+            
+            // Filter PDFs
+            let filteredPDFs;
+            if (category === 'all') {
+                filteredPDFs = pdfData;
+            } else {
+                filteredPDFs = pdfData.filter(pdf => pdf.category === category);
+            }
+            
+            // Reload thumbnails
+            loadPDFThumbnails(filteredPDFs);
+        }
+
+        // Function to search PDFs
+        function searchPDFs() {
+            const searchTerm = document.getElementById('pdf-search').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                // If search is empty, show all PDFs based on current filter
+                const activeTab = document.querySelector('.tab-button.border-gold');
+                if (activeTab) {
+                    const category = activeTab.textContent.trim().toLowerCase();
+                    filterPDFs(category === 'all documents' ? 'all' : category);
+                }
+                return;
+            }
+            
+            const filteredPDFs = pdfData.filter(pdf => 
+                pdf.title.toLowerCase().includes(searchTerm) || 
+                pdf.path.toLowerCase().includes(searchTerm)
+            );
+            
+            loadPDFThumbnails(filteredPDFs);
+        }
+    </script>
+</body>
+</html>
