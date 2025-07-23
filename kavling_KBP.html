@@ -56,95 +56,6 @@
             padding-right: 1rem;
         }
         
-        /* Text utilities */
-        .text-shadow {
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Smooth scrolling */
-        .scroll-smooth {
-            scroll-behavior: smooth;
-        }
-        
-        /* WhatsApp floating button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            width: 60px;
-            height: 60px;
-            background-color: white;
-            border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.3s ease;
-            animation: pulse-slow 2s infinite;
-        }
-        .whatsapp-float img {
-            width: 50px;
-            height: 50px;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            animation: none;
-        }
-        
-        /* Hover effects */
-        .hover-grow {
-            transition: transform 0.3s ease;
-        }
-        .hover-grow:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Lightbox adjustments */
-        .lb-data .lb-caption {
-            font-size: 16px;
-            line-height: 1.4;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Exclusive Listing Badge */
-        .exclusive-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: white;
-            border-radius: 12px;
-            padding: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 10;
-        }
-        .exclusive-badge-text {
-            font-size: 0.65rem;
-            font-weight: bold;
-            color: #D4AF37;
-            white-space: nowrap;
-        }
-        .exclusive-badge-logo {
-            height: 1.25rem;
-            margin-top: 0.25rem;
-        }
-        
-        /* Airbnb badge */
-        .airbnb-badge {
-            background-color: #FF5A5F;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            font-weight: bold;
-            margin-left: 1rem;
-        }
-        
         /* PDF Thumbnail Styles */
         .pdf-thumbnail {
             position: relative;
@@ -214,66 +125,9 @@
             padding: 1.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
-        .pdf-preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .pdf-preview-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
-        }
-        .pdf-preview-close:hover {
-            color: #374151;
-        }
-        .pdf-preview-content {
-            width: 100%;
-            height: 80vh;
-            border: 1px solid #e5e7eb;
-        }
-        
-        /* Responsive adjustments */
-        @media (min-width: 768px) {
-            .exclusive-badge {
-                top: 1.5rem;
-                right: 1.5rem;
-                padding: 0.75rem;
-            }
-            .exclusive-badge-text {
-                font-size: 0.75rem;
-            }
-            .exclusive-badge-logo {
-                height: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .quick-facts .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .gallery .grid {
-                grid-template-columns: repeat(1, 1fr);
-            }
-            .agent-section .flex {
-                flex-direction: column;
-            }
-            .agent-section .md\:pl-12 {
-                padding-left: 0;
-                margin-top: 1.5rem;
-            }
-            .airbnb-badge {
-                margin-left: 0;
-                margin-top: 0.5rem;
-                display: inline-block;
-            }
-        }
     </style>
 </head>
-<body class="bg-gray-50 scroll-smooth">
+<body class="bg-gray-50">
     <header class="bg-white shadow-sm">
         <div class="content-container py-4">
             <div class="flex items-center justify-between">
@@ -324,7 +178,6 @@
             </div>
         </div>
 
-              <!-- Insert this just before the closing </main> tag -->
         <!-- Agent & Contact Section -->
         <section class="py-16 bg-gray-100 agent-section">
             <div class="content-container text-gray-800">
@@ -339,13 +192,12 @@
                     <div class="md:w-2/3 md:pl-12">
                         <h2 class="text-3xl font-bold mb-4">Faisal</h2>
                         <p class="text-xl text-gold mb-4">Property Advisor</p>
-                        <p class="mb-6">Dengan pengalaman luas di pasar properti Bandung dan sekitarnya, saya siap membantu Anda menemukan properti impian atau mengelola penjualan properti Anda dengan hasil maksimal.</p>
+                        <p class="mb-6">Dengan pengalaman luas di pasar properti Bandung dan Lembang, saya siap membantu Anda menemukan properti impian atau mengelola penjualan properti Anda dengan hasil maksimal.</p>
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        
-<a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20kavling%20di%20Kota%20Baru%20Parahyangan.%20Bisa%20berikan%20informasi%20lebih%20lanjut?" 
-   class="bg-gold text-white px-6 py-3 rounded font-bold hover:bg-yellow-600 transition text-center hover:scale-105 transition-transform duration-300">
-   HUBUNGI VIA WHATSAPP
-</a>
+                            <a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20kavling%20di%20Kota%20Baru%20Parahyangan.%20Bisa%20berikan%20informasi%20lebih%20lanjut?" 
+                               class="bg-gold text-white px-6 py-3 rounded font-bold hover:bg-yellow-600 transition text-center hover:scale-105 transition-transform duration-300">
+                               HUBUNGI VIA WHATSAPP
+                            </a>
                             <a href="https://www.neglasarihouse.com" 
                                class="border border-gold text-gold px-6 py-3 rounded font-bold hover:bg-gold hover:text-white transition text-center hover:scale-105 transition-transform duration-300">
                                PROPERTI LAINNYA
@@ -359,10 +211,6 @@
     
     <!-- PDF Preview Modal -->
     <div id="pdf-preview-modal" class="pdf-preview-modal">
-    </main>
-    
-    <!-- PDF Preview Modal -->
-    <div id="pdf-preview-modal" class="pdf-preview-modal">
         <div class="pdf-preview-container">
             <div class="pdf-preview-header">
                 <h3 id="pdf-preview-title" class="text-lg font-medium text-gray-900"></h3>
@@ -372,13 +220,6 @@
                 <iframe id="pdf-preview-frame" src="" frameborder="0" width="100%" height="100%"></iframe>
             </div>
         </div>
-    </div>
-    
-    <!-- WhatsApp Float Button -->
-    <div class="whatsapp-float hover-grow">
-        <a href="https://wa.me/6288210496236?text=Halo%20Faisal,%20saya%20tertarik%20dengan%20kavling%20di%20Kota%20Baru%20Parahyangan.%20Bisa%20berikan%20informasi%20lebih%20lanjut?" target="_blank" rel="noopener noreferrer">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-        </a>
     </div>
     
     <script>
@@ -680,6 +521,11 @@
             // Process each PDF
             let loadedCount = 0;
             
+            if (pdfs.length === 0) {
+                loadingIndicator.innerHTML = '<p class="text-gray-600">No PDFs found</p>';
+                return;
+            }
+            
             pdfs.forEach(pdf => {
                 const pdfItem = document.createElement('div');
                 pdfItem.className = 'pdf-thumbnail hover-grow';
@@ -689,7 +535,7 @@
                 pdfItem.setAttribute('data-title', pdf.title);
                 
                 pdfItem.innerHTML = `
-                    <div class="relative pb-[141.42%]"> <!-- Aspect ratio container for 1:√2 (A4) -->
+                    <div class="relative pb-[141.42%]">
                         <div class="absolute inset-0 flex items-center justify-center bg-gray-100">
                             <canvas class="pdf-canvas"></canvas>
                             <div class="pdf-thumbnail-overlay">
@@ -724,28 +570,13 @@
 
         // Function to load a PDF and render its first page as thumbnail
         function loadPDFThumbnail(url, canvasElement, callback) {
-            // For demo purposes, we'll just show a placeholder
-            // In a real app, you would use PDF.js to render the actual first page
+            // For demo purposes, we'll use PDF.js to render a sample PDF
+            // In production, replace this with your actual PDF URLs
             
-            const ctx = canvasElement.getContext('2d');
-            canvasElement.width = 300;
-            canvasElement.height = 424; // A4 aspect ratio
+            // Use a sample PDF URL for demonstration
+            const demoPdfUrl = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
             
-            // Draw placeholder
-            ctx.fillStyle = '#f3f4f6';
-            ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-            
-            ctx.fillStyle = '#9ca3af';
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('PDF Preview', canvasElement.width/2, canvasElement.height/2);
-            
-            // Simulate loading delay
-            setTimeout(callback, 200);
-            
-            /* 
-            // Actual PDF.js implementation would look like this:
-            pdfjsLib.getDocument(url).promise.then(function(pdf) {
+            pdfjsLib.getDocument(demoPdfUrl).promise.then(function(pdf) {
                 return pdf.getPage(1);
             }).then(function(page) {
                 const viewport = page.getViewport({ scale: 0.5 });
@@ -758,9 +589,18 @@
                 }).promise.then(callback);
             }).catch(function(error) {
                 console.error('Error loading PDF:', error);
+                // Fallback to placeholder if PDF fails to load
+                const ctx = canvasElement.getContext('2d');
+                canvasElement.width = 300;
+                canvasElement.height = 424;
+                ctx.fillStyle = '#f3f4f6';
+                ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('PDF Preview', canvasElement.width/2, canvasElement.height/2);
                 callback();
             });
-            */
         }
 
         // Function to open PDF preview
@@ -770,7 +610,8 @@
             const titleElement = document.getElementById('pdf-preview-title');
             
             titleElement.textContent = title;
-            frame.src = url; // In a real app, you might want to use PDF.js viewer instead
+            // For demo purposes, using a sample PDF
+            frame.src = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
             modal.style.display = 'block';
         }
 
@@ -779,7 +620,7 @@
             // Update active tab
             const tabs = document.querySelectorAll('.tab-button');
             tabs.forEach(tab => {
-                if (tab.textContent.toLowerCase().includes(category) {
+                if (tab.textContent.toLowerCase().includes(category)) {
                     tab.classList.add('border-gold', 'text-gold');
                     tab.classList.remove('border-transparent', 'text-gray-500');
                 } else {
@@ -815,8 +656,7 @@
             }
             
             const filteredPDFs = pdfData.filter(pdf => 
-                pdf.title.toLowerCase().includes(searchTerm) || 
-                pdf.path.toLowerCase().includes(searchTerm)
+                pdf.title.toLowerCase().includes(searchTerm)
             );
             
             loadPDFThumbnails(filteredPDFs);
