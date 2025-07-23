@@ -573,10 +573,8 @@
             // For demo purposes, we'll use PDF.js to render a sample PDF
             // In production, replace this with your actual PDF URLs
             
-            // Use a sample PDF URL for demonstration
-            const demoPdfUrl = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
             
-            pdfjsLib.getDocument(demoPdfUrl).promise.then(function(pdf) {
+            pdfjsLib.getDocument(url).promise.then(function(pdf) {
                 return pdf.getPage(1);
             }).then(function(page) {
                 const viewport = page.getViewport({ scale: 0.5 });
@@ -605,15 +603,15 @@
 
         // Function to open PDF preview
         function openPDFPreview(url, title) {
-            const modal = document.getElementById('pdf-preview-modal');
-            const frame = document.getElementById('pdf-preview-frame');
-            const titleElement = document.getElementById('pdf-preview-title');
-            
-            titleElement.textContent = title;
-            // For demo purposes, using a sample PDF
-            frame.src = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
-            modal.style.display = 'block';
-        }
+    const modal = document.getElementById('pdf-preview-modal');
+    const frame = document.getElementById('pdf-preview-frame');
+    const titleElement = document.getElementById('pdf-preview-title');
+    
+    titleElement.textContent = title;
+    // Use the actual PDF URL instead of the demo PDF
+    frame.src = url; // This will use the path from your pdfData array
+    modal.style.display = 'block';
+}
 
         // Function to filter PDFs by category
         function filterPDFs(category) {
