@@ -406,9 +406,10 @@
             flex-direction: column;
             align-items: center;
         }
+        /* FIXED: Perfect circle on all screen sizes */
         .agent-photo-container {
-            width: 14rem;
-            height: 14rem;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid #D4AF37;
@@ -416,6 +417,7 @@
             transition: transform 0.3s;
             position: relative;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
         .agent-photo-container:hover {
             transform: scale(1.05);
@@ -624,7 +626,10 @@
                 flex-direction: row;
                 align-items: flex-start;
             }
+            /* FIXED: Maintain perfect circle on desktop */
             .agent-photo-container {
+                width: 200px;
+                height: 200px;
                 margin-right: 3rem;
                 margin-bottom: 0;
             }
@@ -788,7 +793,7 @@
                 <p>Properti ini menawarkan 3 kamar tidur utama plus 1 kamar pembantu, masing-masing dengan kamar mandi en-suite. Kamar utama di lantai atas memiliki walk-in closet luas dan balkon pribadi dengan pemandangan kota. Area keluarga terbuka menghubungkan ruang makan formal yang mewah dengan dapur modern berisi peralatan high-end.</p>
                 <h3>Lokasi Strategis</h3>
                 <p>Ciumbuleuit dikenal sebagai kawasan hunian elite di Bandung dengan akses mudah ke berbagai fasilitas premium. Hanya beberapa menit berkendara ke Universitas Katolik Parahyangan (UNPAR), Jalan Dago dengan pusat kuliner dan belanjanya, serta kawasan Setiabudi yang terkenal. Sekolah internasional, rumah sakit premium, dan pusat perbelanjaan high-end semuanya dapat dijangkau dengan mudah dari lokasi ini.</p>
-                <p>Dengan daya listrik 4400 Watt, sistem keamanan 24 jam, dan area parkir yang luas untuk 2-3 mobil di carport, properti ini menawarkan segala yang dibutuhkan untuk gaya hidup modern yang nyaman dan aman.</p>
+                <p>Dengan daya listrik 4400 Watt, sistem keamanan 24 jam, dan area parkir yang luas untuk 2-3 mobil di carport, properti ini menowarkan segala yang dibutuhkan untuk gaya hidup modern yang nyaman dan aman.</p>
                 <div class="highlight-box">
                     <p>⏳ Jangan lewatkan kesempatan memiliki rumah mewah di lokasi strategis ini! Hubungi kami sekarang untuk kunjungan langsung dan informasi lebih lanjut.</p>
                 </div>
